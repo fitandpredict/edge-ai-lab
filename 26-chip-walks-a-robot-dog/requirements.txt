@@ -1,0 +1,11 @@
+mujoco>=3.3
+numpy
+onnx
+onnxruntime
+pyserial
+imageio
+imageio-ffmpeg
+pillow
+trimesh            # only for sim/export_crowd.py
+fast-simplification  # only for sim/export_crowd.py
+scipy              # only for sim/export_crowd.py

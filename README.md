@@ -11,6 +11,7 @@ caveats. If you run something, post your numbers under the video. That's the fun
 
 | # | Video | Folder | What's inside |
 |---|---|---|---|
+| 26 | My $5 Microcontroller Walks a Robot Dog | [`26-chip-walks-a-robot-dog`](26-chip-walks-a-robot-dog) | Go1 walking brains trained on a Colab A100, run on an ESP32-S3 driving MuJoCo over USB |
 
 ## Layout
 
