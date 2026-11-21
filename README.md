@@ -12,6 +12,7 @@ caveats. If you run something, post your numbers under the video. That's the fun
 | # | Video | Folder | What's inside |
 |---|---|---|---|
 | 26 | My $5 Microcontroller Walks a Robot Dog | [`26-chip-walks-a-robot-dog`](26-chip-walks-a-robot-dog) | Go1 walking brains trained on a Colab A100, run on an ESP32-S3 driving MuJoCo over USB |
+| 27 | Can a $5 Microcontroller Fly a Drone? | [`27-chip-flies-a-drone`](27-chip-flies-a-drone) | Drone brain trained with RL (JAX + Brax), flown by an ESP32-S3; latency and lag experiments |
 
 ## Layout
 
