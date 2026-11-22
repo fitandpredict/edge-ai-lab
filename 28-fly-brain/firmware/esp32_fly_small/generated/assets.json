@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "bundle_id": "fly-escape-v1-compact",
+  "contract": "fly-escape-v1",
+  "manifest_sha256": "25ef5e20b63f22a9aea47f92d4296debaf444bc998743d52878e11c17cd8543c",
+  "files": {
+    "graph": {
+      "name": "connectome.fcl",
+      "bytes": 26155,
+      "sha256": "e0c2c7b54a27a84527f6d11ad3825b6a797af1534bdd7e844d0ca96a0b04b223",
+      "path": "data/bundles/compact/connectome.fcl"
+    },
+    "graph_gold": {
+      "name": "gold-device-order.bin",
+      "bytes": 497668,
+      "sha256": "d72840aaaaef0fda33fab39b3a968a98ba80fcdb38cfb5bce511a30a0b4dd71b",
+      "path": "data/bundles/compact/gold-device-order.bin"
+    },
+    "circuit": {
+      "name": "escape-circuit.json",
+      "bytes": 28645,
+      "sha256": "42131da83d50bb17e30bf2a2fc1236c6ab439d1fad995d121485f27c1339e14b",
+      "path": "data/bundles/compact/escape-circuit.json"
+    },
+    "escape_gold": {
+      "name": "escape-gold.bin",
+      "bytes": 4832,
+      "sha256": "7d47c02510bbc66424f01c69a5e75d8d71123e6c384c2873d1cde2a1ff2e6fb9",
+      "path": "data/bundles/compact/escape-gold.bin"
+    },
+    "neurons": {
+      "name": "neurons.csv",
+      "bytes": 12720,
+      "sha256": "d0a9625366c40223f715331c1df17d2f932529f234b5d3ed47762f644a7acc75",
+      "path": "data/bundles/compact/neurons.csv"
+    }
+  },
+  "numerical_gold_executed": false,
+  "graph_blocks": 10,
+  "config": {
+    "CONNECTOME_N": 319,
+    "CONNECTOME_E": 21288,
+    "CONNECTOME_BLOCK_ROWS": 32,
+    "CONNECTOME_BYTES": 26155,
+    "CONNECTOME_RAW": 4936,
+    "CONNECTOME_COMPRESSED": 2708,
+    "CONNECTOME_HASH": 239886935
+  },
+  "escape": {
+    "amplitude": 0.8,
+    "threshold": 0.05,
+    "inputs": {
+      "L": 165,
+      "R": 146
+    },
+    "outputs": {
+      "L": 4,
+      "R": 4
+    },
+    "circuit_fnv1a": "ca436664"
+  }
+}

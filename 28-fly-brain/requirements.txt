@@ -1,0 +1,6 @@
+numpy
+scipy
+lz4
+h5py
+mediapy
+pyserial
