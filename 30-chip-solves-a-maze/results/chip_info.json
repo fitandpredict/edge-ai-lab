@@ -1,0 +1,13 @@
+[
+ {
+  "params_on_chip": 84804,
+  "params_torch": 85316,
+  "float32_kib": 331.3,
+  "int8_kib": 82.8,
+  "mode": 2,
+  "mode_name": "float32, weights in PSRAM, SIMD dot product",
+  "sram_f32_fits": false,
+  "free_internal": 254384,
+  "free_psram": 8049152
+ }
+]

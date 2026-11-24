@@ -1,0 +1,31 @@
+[
+ {
+  "mode": 0,
+  "name": "float32, weights read from flash, plain C",
+  "mean_us": 14072.6,
+  "best_us": 14056
+ },
+ {
+  "mode": 1,
+  "name": "float32, weights in PSRAM, plain C",
+  "mean_us": 9501.9,
+  "best_us": 9485
+ },
+ {
+  "mode": 2,
+  "name": "float32, weights in PSRAM, SIMD dot product",
+  "mean_us": 6779.5,
+  "best_us": 6766
+ },
+ {
+  "mode": 3,
+  "name": "float32, weights in internal RAM, SIMD dot product",
+  "skipped": "does not fit in internal RAM"
+ },
+ {
+  "mode": 4,
+  "name": "int8 weights in internal RAM, plain C",
+  "mean_us": 5750.4,
+  "best_us": 5738
+ }
+]

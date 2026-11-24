@@ -1,0 +1,55 @@
+{
+ "mazes": 200,
+ "loops": 8,
+ "results": {
+  "lstm": {
+   "7x7": {
+    "solve_rate": 0.89,
+    "path_vs_shortest": 1.23,
+    "bumps_per_maze": 0.135
+   }
+  },
+  "mlp": {
+   "7x7": {
+    "solve_rate": 0.89,
+    "path_vs_shortest": 1.27,
+    "bumps_per_maze": 1.13
+   }
+  },
+  "lstm_novis": {
+   "7x7": {
+    "solve_rate": 0.93,
+    "path_vs_shortest": 1.22,
+    "bumps_per_maze": 0.075
+   }
+  },
+  "mlp_novis": {
+   "7x7": {
+    "solve_rate": 0.76,
+    "path_vs_shortest": 1.15,
+    "bumps_per_maze": 0.005
+   }
+  },
+  "left_hand": {
+   "7x7": {
+    "solve_rate": 0.79,
+    "path_vs_shortest": 2.47,
+    "bumps_per_maze": 0.0
+   }
+  },
+  "flood_fill": {
+   "7x7": {
+    "solve_rate": 1.0,
+    "path_vs_shortest": 1.16,
+    "bumps_per_maze": 0.0
+   }
+  },
+  "random": {
+   "7x7": {
+    "solve_rate": 0.305,
+    "path_vs_shortest": 7.67,
+    "bumps_per_maze": 71.775
+   }
+  }
+ }
+}

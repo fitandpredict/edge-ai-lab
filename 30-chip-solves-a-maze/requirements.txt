@@ -1,0 +1,9 @@
+gymnasium==1.4.0
+ImageIO==2.38.2
+imageio-ffmpeg==0.8.1
+mujoco==4.0.1
+numpy==2.5.5
+pyserial==3.5
+torch==2.15.0
+sb3_contrib==2.9.2
+stable_baselines3==2.9.2

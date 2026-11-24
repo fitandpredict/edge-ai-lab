@@ -1,0 +1,10 @@
+{
+ "mode": 2,
+ "mazes": 50,
+ "solved": 50,
+ "decisions": 1565,
+ "same_action_as_mac": 1565,
+ "max_logit_diff": 4e-06,
+ "chip_us_mean": 6835.9,
+ "round_trip_ms_mean": 7.42
+}
