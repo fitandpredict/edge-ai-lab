@@ -1,0 +1,10 @@
+# Mac side (Python 3.12: esp-ppq needs < 3.13): ONNX export, int8 quantization, the serial tools, scoring
+ultralytics==8.4.0          # esp-detection's head needs the 8.4 series (8.3.x rejects reg_max)
+torch==2.15.0
+onnx==1.19.1
+onnxslim==0.1.99
+onnxruntime==1.32.0
+esp-ppq @ git+https://github.com/espressif/esp-ppq@989816732093e080674e2a611bfe44a8ca0dc917
+numpy==2.1.1
+pillow==13.0.0
+pyserial==3.5

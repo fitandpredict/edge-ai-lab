@@ -1,0 +1,1 @@
+{"frame": "frames/7614413/0004.jpg", "model": 0, "model_name": "coco_detect_yolo11n_s8_v1", "decode_ms": 44.9, "detect_ms": 25684.6, "pre_ms": 49.6, "model_ms": 25588.9, "post_ms": 46.0, "boxes": [{"cat": 0, "score": 0.9, "box": [364, 66, 446, 313]}, {"cat": 57, "score": 0.9, "box": [0, 258, 510, 476]}]}
