@@ -16,6 +16,7 @@ caveats. If you run something, post your numbers under the video. That's the fun
 | 28 | I Put a Real Fly's Brain in a Virtual Body | [`28-fly-brain`](28-fly-brain) | A real fruit fly connectome on an ESP32-S3 deciding a flybody fly's escape in MuJoCo; brain pruning to real time |
 | 30 | My $5 Microcontroller Solved a Maze It's Never Seen | [`30-chip-solves-a-maze`](30-chip-solves-a-maze) | Recurrent RL maze brain (LSTM) on an ESP32-S3, MuJoCo rover sim |
 | 33 | My $5 Chip Took 26 Seconds to Spot a Person. So I Made It 190× Faster | [`33-chip-spots-people`](33-chip-spots-people) | Person detection on an ESP32-S3: YOLO11n to a trained espdet_pico at 7.4 fps |
+| 34 | Can a $15 Computer Describe What It Sees? | [`34-pi-zero-sees`](34-pi-zero-sees) | SmolVLM on a Pi Zero 2 W, offline, with an ESP32-S3 camera |
 
 ## Layout
 

@@ -1,0 +1,107 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Chip's photo booth</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #111; color: #ddd; font: 14px/1.4 system-ui; padding: 12px; }
+  .app { display: grid; grid-template-columns: minmax(240px, 1fr) minmax(260px, 1fr); gap: 14px; max-width: 1500px; margin: auto; }
+  @media (max-width: 520px) { .app { grid-template-columns: 1fr; } }
+  .live { position: sticky; top: 12px; align-self: start; }
+  .frame { position: relative; }
+  .frame img { width: 100%; display: block; border-radius: 6px; background: #000; aspect-ratio: 4/3; }
+  .grid { position: absolute; inset: 0; pointer-events: none; border-radius: 6px;
+          background: linear-gradient(#fff3 1px, transparent 1px) 0 0 / 100% 33.33%,
+                      linear-gradient(90deg, #fff3 1px, transparent 1px) 0 0 / 33.33% 100%; }
+  .flash { position: absolute; inset: 0; background: #fff; opacity: 0; border-radius: 6px; transition: opacity .4s; pointer-events: none; }
+  .bar { display: flex; justify-content: space-between; margin: 6px 0 10px; opacity: .75; font-size: 12px; }
+  label { display: block; font-size: 12px; opacity: .75; margin: 8px 0 3px; }
+  input { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #333; background: #1b1b1b; color: #eee; font: inherit; }
+  button { margin-top: 10px; width: 100%; padding: 12px; font: 600 16px system-ui; border: 0; border-radius: 8px;
+           background: #ffd23f; color: #111; cursor: pointer; }
+  button:disabled { background: #444; color: #999; cursor: wait; }
+  .status { margin-top: 8px; min-height: 1.4em; font-size: 13px; }
+  .shots { display: flex; flex-direction: column; gap: 12px; }
+  .card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; padding: 10px;
+          display: grid; grid-template-columns: 1fr; gap: 8px; }
+  .card img { width: 100%; max-width: 220px; border-radius: 4px; }
+  .card h3 { margin: 0 0 4px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; }
+  .del { font: 12px system-ui; color: #ff8a80; border: 1px solid #5a2a2a; border-radius: 5px; padding: 2px 8px; cursor: pointer; }
+  .del:hover { background: #3a1a1a; }
+  .truth { font-size: 12px; opacity: .8; margin-bottom: 6px; overflow-wrap: anywhere; }
+  .truth input { padding: 4px 6px; font-size: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
+  td { padding: 4px 6px; border-top: 1px solid #2a2a2a; vertical-align: top; overflow-wrap: anywhere; }
+  td.m { width: 64px; font-weight: 600; color: #ffd23f; }
+  td.k { width: 72px; opacity: .6; }
+  .empty { opacity: .5; padding: 20px; text-align: center; border: 1px dashed #333; border-radius: 8px; }
+</style></head>
+<body><div class="app">
+  <div class="live">
+    <div class="frame"><img id="v" alt="Chip's camera"><div class="grid"></div><div class="flash" id="flash"></div></div>
+    <div class="bar"><span>Chip's live view (640×480)</span><span id="fps">connecting…</span></div>
+    <label for="truth">What's really in the shot? (optional: I can fill it in after)</label>
+    <input id="truth" placeholder="e.g. mug, keys">
+    <label for="trick">Trick shot? (optional)</label>
+    <input id="trick" placeholder="e.g. half out of frame">
+    <button id="go">Take photo</button>
+    <div class="status" id="status"></div>
+  </div>
+  <div class="shots" id="shots"><div class="empty">No photos yet. Line it up on the left and press Take photo.</div></div>
+</div>
+<script>
+  const $ = id => document.getElementById(id);
+  // Live view: one request at a time; paused while a photo is being taken so Chip isn't asked twice.
+  let paused = false, n = 0, t0 = performance.now();
+  function next() {
+    if (paused) return setTimeout(next, 300);
+    const img = new Image();
+    img.onload = () => { $('v').src = img.src; n++; $('fps').textContent = (n / ((performance.now() - t0) / 1000)).toFixed(1) + ' fps'; setTimeout(next, 150); };
+    img.onerror = () => { $('fps').textContent = 'no answer from chip.local, retrying'; setTimeout(next, 1000); };
+    img.src = 'http://chip.local/capture?size=vga&t=' + Date.now();
+  }
+  next();
+
+  const esc = s => (s || '').replace(/[&<>]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;'}[c]));
+  function card(r) {
+    const row = (m, k, label) => `<tr><td class="m">${m}</td><td class="k">${label}</td><td>${esc(r[m + '_' + k])}</td></tr>`;
+    return `<div class="card"><img src="/photos/${r.image}?v=${encodeURIComponent(r.t)}" alt="photo ${r.id}">
+      <div><h3>#${r.id}${r.trick ? ' · trick: ' + esc(r.trick) : ''}<span class="del" data-del="${r.id}" title="Delete this photo">Delete</span></h3>
+      <div class="truth">Really there: <input data-id="${r.id}" value="${esc(r.truth)}" placeholder="type what's really there, press Enter"></div>
+      <table>${row('256M', 'sentence', 'sentence')}${row('256M', 'list', 'list')}${row('500M', 'sentence', 'sentence')}${row('500M', 'list', 'list')}</table></div></div>`;
+  }
+  // Redraw only when something changed, so typing in a card's "really there" box isn't wiped.
+  let lastSig = '';
+  async function refresh() {
+    const rows = await (await fetch('/results')).json();
+    const sig = JSON.stringify(rows);
+    if (sig === lastSig || document.activeElement?.dataset?.id) return;
+    lastSig = sig;
+    $('shots').innerHTML = rows.length ? rows.slice().reverse().map(card).join('')
+      : '<div class="empty">No photos yet. Line it up on the left and press Take photo.</div>';
+  }
+  setInterval(refresh, 3000);   // photos taken from another tab or window show up here too
+  $('shots').addEventListener('click', async e => {
+    const id = e.target.dataset.del;
+    if (!id || !confirm(`Delete photo #${id}?`)) return;
+    await fetch('/delete', {method: 'POST', body: JSON.stringify({id})});
+    lastSig = ''; await refresh();
+    if (!$('shots').querySelector('.card')) $('shots').innerHTML = '<div class="empty">No photos yet. Line it up on the left and press Take photo.</div>';
+  });
+  $('shots').addEventListener('keydown', async e => {
+    if (e.key !== 'Enter' || !e.target.dataset.id) return;
+    await fetch('/truth', {method: 'POST', body: JSON.stringify({id: e.target.dataset.id, truth: e.target.value})});
+    e.target.style.borderColor = '#4caf50';
+  });
+  $('go').onclick = async () => {
+    $('go').disabled = true; paused = true;
+    $('flash').style.opacity = .8; setTimeout(() => $('flash').style.opacity = 0, 150);
+    const t = Date.now(), tick = setInterval(() => $('status').textContent = `Captioning with both models… ${((Date.now() - t) / 1000).toFixed(0)} s`, 500);
+    try {
+      const r = await fetch('/shoot', {method: 'POST', body: JSON.stringify({truth: $('truth').value, trick: $('trick').value})});
+      const j = await r.json();
+      $('status').textContent = r.ok ? `#${j.id} done in ${((Date.now() - t) / 1000).toFixed(0)} s` : 'Error: ' + j.error;
+      if (r.ok) { $('truth').value = ''; $('trick').value = ''; await refresh(); }
+    } catch (e) { $('status').textContent = 'Error: ' + e; }
+    clearInterval(tick); $('go').disabled = false; paused = false;
+  };
+  refresh();
+</script></body></html>
