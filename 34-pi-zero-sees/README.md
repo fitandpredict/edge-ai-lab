@@ -31,7 +31,7 @@ cmake --build ~/llama.cpp/build -j2      # 1 h 43 min on mine; have zram swap on
 mkdir -p ~/vlm/models && cd ~/vlm/models
 # from https://huggingface.co/ggml-org/SmolVLM-256M-Instruct-GGUF (and -500M-):
 #   SmolVLM-256M-Instruct-Q8_0.gguf  mmproj-SmolVLM-256M-Instruct-Q8_0.gguf
-python3 pi/vlm_server.py                   # listens on :8090, standard library only
+cp <this folder>/pi/vlm_server.py ~/vlm/ && python3 ~/vlm/vlm_server.py   # listens on :8090, standard library only
 ```
 Environment knobs: `VLM_MODEL`, `VLM_MMPROJ`, `VLM_PROMPT`, `VLM_CTX` (512), `VLM_N` (40), `VLM_T` (4). Every
 caption is logged with its wall time, first-word time, peak RSS, page faults and swap.
